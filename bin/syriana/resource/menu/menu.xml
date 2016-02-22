@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<config>
-	<main id="99999" name="测试，请不要选择" clazz="syriana.test.Test">
-		<sub id="99999" name="测试，请不要选择" isDirector="false" />
-	</main>
-	<main id="10010" name="夜餐费" clazz="syriana.dinnerfee.DinnerFee">
-		<sub id="10011" name="各科室夜餐费" isDirector="true" />
-	</main>
-</config>
