@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -28,6 +30,7 @@ import syriana.util.XmlUtils;
 public class DinnerFee extends AbstractHandler{
 
 	public HashMap<String, String> code2nameMap = new HashMap<String, String>();
+	public HashMap<String, Double> code2Total = new LinkedHashMap<String, Double>();
 	
 	public DinnerFee() {
 		
@@ -78,6 +81,9 @@ public class DinnerFee extends AbstractHandler{
 				String officeName = code2nameMap.get(officeCode);
 				currentFileName = file.getName();
 				double officeTotalFee = 0L;
+				if(code2Total.containsKey(officeCode)){
+					officeTotalFee = code2Total.get(officeCode);
+				}
 				Workbook workbook = ExcelUtil.createWorkBook(file);
 				int sheetLength = workbook.getNumberOfSheets();
 				for(sheetIndex = 0; sheetIndex < sheetLength; sheetIndex++){
@@ -110,6 +116,8 @@ public class DinnerFee extends AbstractHandler{
 									empFee = empFee.replace("元", "");
 								}
 								officeTotalFee += Double.parseDouble(empFee);
+								// 总额存到MAP
+								code2Total.put(officeCode, officeTotalFee);
 							} catch(Exception e){
 								Commanager.addLogger2Queue("===>>>处理【" + currentFileName
 										+ "】时表名为【" + currentSheetName + "】的第【" + lineIndex + "】行数据时，第6列数据时，不是数字，已跳过处理");
@@ -133,15 +141,20 @@ public class DinnerFee extends AbstractHandler{
 						}
 					}
 				}
+			}
+			
+			// 各科室总费用，不再按表来分
+			for(Entry<String, Double> entry : code2Total.entrySet()){
 				// 记录总今个
 				Row officeRow = officeSheet.createRow(officeSheet.getLastRowNum() + 1);
 				Cell codeOfficeCell = officeRow.createCell(0);
 				Cell nameOfficeCell = officeRow.createCell(1);
 				Cell totalFeeOfficeCell = officeRow.createCell(2);
-				codeOfficeCell.setCellValue(officeCode);
-				nameOfficeCell.setCellValue(officeName);
-				totalFeeOfficeCell.setCellValue(officeTotalFee + "");
+				codeOfficeCell.setCellValue(entry.getKey());
+				nameOfficeCell.setCellValue(code2nameMap.get(entry.getKey()));
+				totalFeeOfficeCell.setCellValue(entry.getValue());
 			}
+			
 			//保存
 			saveFile.createNewFile();
 			FileOutputStream fileOut = new FileOutputStream(saveFile);
@@ -183,11 +196,7 @@ public class DinnerFee extends AbstractHandler{
 	}
 	
 	public static void main(String[] args) throws Exception{
-//		String path = "E:\\kunkun";
-//		DinnerFee dinnerFee = new DinnerFee(MainType.DinnerFee, SubType.Default);
-//		dinnerFee.init();
-//		dinnerFee.handleDinnerFee(path, null);
-//		dinnerFee.createOfficeCodeXml("E:\\kunkun\\样表1.xls");
+		
 	}
 
 	@Override

@@ -14,6 +14,8 @@ import syriana.util.XmlUtils;
 
 public class MenuManager {
 	
+	public static boolean isDebug = false;
+	
 	private static MenuManager instance = new MenuManager();
 	/**
 	 * 主类型对应子类型列表
@@ -28,11 +30,18 @@ public class MenuManager {
 	 */
 	private Map<Integer, AbstractHandler> mainType2Handler = new HashMap<Integer, AbstractHandler>();
 	public void initMenu() throws Exception{
-		// 加载科室配置
-		InputStream stream = MenuManager.class.getClassLoader().getResourceAsStream(Commanager.getRootPath() + "/menu/menu.xml");
-//		URL url = MenuManager.class.getClassLoader().getResource("syriana/resource/menu/menu.xml");
-		System.err.println(stream == null);
-		Document doc = XmlUtils.load(stream);
+		
+		Document doc;
+		if(!isDebug){
+			// 加载科室配置
+			InputStream stream = MenuManager.class.getClassLoader().getResourceAsStream(Commanager.getRootPath() + "/menu/menu.xml");
+			doc = XmlUtils.load(stream);
+		}
+		else{
+			InputStream stream = MenuManager.class.getClassLoader().getResourceAsStream("syriana/resource/menu/menu.xml");
+			doc = XmlUtils.load(stream);
+		}
+		
 		Element config = doc.getDocumentElement();
 		Element[] mainNodeList = XmlUtils.getChildrenByName(config, "main");
 		for(Element mainNode : mainNodeList){
