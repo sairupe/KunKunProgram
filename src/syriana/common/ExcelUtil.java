@@ -13,10 +13,12 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import syriana.util.StringUtils;
+
 public class ExcelUtil {
 	public static String getCellStringValue(Cell cell){
 		if (null != cell) {
-			switch (cell.getCellType()) {// 判断单元格的数据类型
+            switch (cell.getCellType()){// 判断单元格的数据类型
 			case Cell.CELL_TYPE_NUMERIC:
 				if (cell.getNumericCellValue() > 0
 						&& cell.getNumericCellValue() > (int) cell
@@ -52,6 +54,10 @@ public class ExcelUtil {
 		return "";
 	}
 	
+	public static boolean isEmpty(Cell cell){
+		return StringUtils.isEmpty(getCellStringValue(cell));
+	}
+	
 	public static Workbook createWorkBook(File path) throws Exception {
 		InputStream  in = new FileInputStream(path);
         if (!in.markSupported()) {
@@ -63,6 +69,6 @@ public class ExcelUtil {
         if (POIXMLDocument.hasOOXMLHeader(in)) {
             return new XSSFWorkbook(OPCPackage.open(in));
         }
-        throw new IllegalArgumentException("你的excel版本目前poi解析不了");
+        throw new IllegalArgumentException("你的excel版本目前poi解析不了,PATH:" + path);
     }
 }

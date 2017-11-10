@@ -4,7 +4,7 @@
 	<office id="102" name="心内二区" />
 	<office id="103" name="怡康中心" />
 	<office id="104" name="呼吸内科" />
-	<office id="105" name="消化内科 " />
+	<office id="105" name="消化内科一区 " />
 	<office id="106" name="肝病内科 " />
 	<office id="107" name="神内一区" />
 	<office id="108" name="神内二区" />
@@ -26,7 +26,7 @@
 	<office id="124" name="骨四肢2区" />
 	<office id="125" name="妇科" />
 	<office id="126" name="产科" />
-	<office id="127" name="产科爱婴门卫" />
+	<office id="127" name="消化内科二区" />
 	<office id="128" name="儿科 " />
 	<office id="129" name="皮肤科" />
 	<office id="130" name="眼科" />
@@ -50,6 +50,7 @@
 	<office id="148" name="放疗科直线加速器治疗中心" />
 	<office id="149" name="西药房" />
 	<office id="150" name="肾内南区" />
+	<office id="151" name="导管室" />
 	<office id="201" name="收费处" />
 	<office id="202" name="司机班" />
 	<office id="203" name="电梯班" />

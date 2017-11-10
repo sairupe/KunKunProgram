@@ -2,7 +2,10 @@ package syriana.common;
 
 public enum SubType {
 	Test(99999, "测试，请不要选择"),
-	DinnerFeeDefault(10011, "各科室夜餐费");
+	DinnerFeeDefault(10011, "各科室夜餐费"),
+	SheetCombine(10021, "合并所有SHEET表"),
+	SheetCombine2006_2007(10031, "合并所有SHEET表2006_2007"),
+	SheetCombine5_9(10041, "合并所有SHEET表5_9");
 	/**
 	 * 子类型
 	 */

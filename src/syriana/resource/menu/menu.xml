@@ -6,4 +6,13 @@
 	<main id="10010" name="夜餐费" clazz="syriana.dinnerfee.DinnerFee">
 		<sub id="10011" name="各科室夜餐费" isDirector="true" />
 	</main>
+	<main id="10020" name="EXCEL通用工具" clazz="syriana.general.SheetCombine">
+		<sub id="10021" name="EXCEL所有SHEET汇总" isDirector="true" />
+	</main>
+	<main id="10030" name="合并2006-2007餐补" clazz="syriana.general.SheetCombine2006_2007">
+		<sub id="10031" name="合并2006-2007餐补" isDirector="true" />
+	</main>
+	<main id="10040" name="合并5-9餐补" clazz="syriana.general.SheetCombine5_9">
+		<sub id="10041" name="合并5-9餐补" isDirector="true" />
+	</main>
 </config>
