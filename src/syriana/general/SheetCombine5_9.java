@@ -125,11 +125,12 @@ public class SheetCombine5_9 extends AbstractHandler{
 		}
 	}
 	
-	public void dealFileRecursive(File file, Sheet toSaveSheet) throws Exception{
+	public void dealFileRecursive(String parentFileName, File file, Sheet toSaveSheet) throws Exception{
 		if(!file.getName().endsWith(".xls") && !file.getName().endsWith(".xlsx")){
 			return;
 		}
 		
+		String yuefen = parentFileName.substring(parentFileName.indexOf("2"));
 		String currentFileName = "";
 		String currentSheetName = "";
 		int lineIndex = 0;
@@ -169,8 +170,11 @@ public class SheetCombine5_9 extends AbstractHandler{
 //		}
 		
 		// ======================  new =======================
+		int keshiNameIndex = 0;// 表内科室INDEX
 		int roleNameIndex = 1;// 第二列上班人员名字
 		Workbook workbook = ExcelUtil.createWorkBook(file);
+		String keshiName = file.getName();
+		keshiName = keshiName.substring(keshiName.indexOf("-") + 1, keshiName.lastIndexOf("."));
 		int sheetLength = workbook.getNumberOfSheets();
 		for(sheetIndex = 0; sheetIndex < sheetLength; sheetIndex++){
 			Sheet sheet = workbook.getSheetAt(sheetIndex);
@@ -198,12 +202,30 @@ public class SheetCombine5_9 extends AbstractHandler{
 							break;
 						}
 						Row newRow = toSaveSheet.createRow(newRowIndex);
-						Cell roleName = newRow.createCell(0);
-						Cell heJi = newRow.createCell(1);
+						
+						Cell yuefenCell = newRow.createCell(0);
+						yuefenCell.setCellValue(yuefen);
+						Cell keshi = newRow.createCell(1);
+						keshi.setCellValue(keshiName);
+						
+						Cell keshineiCell = newRow.createCell(2);
+						Cell roleName = newRow.createCell(3);
+						Cell heJi = newRow.createCell(4);
+						// 数值类型
+						heJi.setCellType(Cell.CELL_TYPE_NUMERIC);
+						
+						String keshiNeiStr = ExcelUtil.getCellStringValue(row.getCell(keshiNameIndex));
 						String roleNameStr = ExcelUtil.getCellStringValue(row.getCell(roleNameIndex));
 						String hejiStr = ExcelUtil.getCellStringValue(row.getCell(hejiIndex));
+						
+						keshineiCell.setCellValue(keshiNeiStr);
 						roleName.setCellValue(roleNameStr);
-						heJi.setCellValue(hejiStr);
+						
+						if(StringUtils.isEmpty(roleNameStr)){
+							toSaveSheet.removeRow(newRow);
+						}else{
+							heJi.setCellValue(Float.parseFloat(hejiStr));
+						}
 						newRowIndex++;
 						
 					}

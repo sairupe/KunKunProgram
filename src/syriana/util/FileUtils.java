@@ -20,7 +20,7 @@ public class FileUtils {
 				recursionAllFile(file2, sheetcombine, toSaveSheet);
 			}
 			else{
-				sheetcombine.dealFileRecursive(file2, toSaveSheet);
+				sheetcombine.dealFileRecursive(file.getName(), file2, toSaveSheet);
 			}
 		}
 	}
