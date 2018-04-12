@@ -39,6 +39,7 @@ public class SheetCombine5_9 extends AbstractHandler{
 	}
 	
 	public void handle_10041 (String path, HashMap<String, String> params) throws Exception{
+		newRowIndex = 0;
 		Commanager.addLogger2Queue("===>>>开始处理带教费合并11111111111.....请不要乱动");
 		File saveFile = new File(path + "//带教费合并.xlsx");
 		if(saveFile.exists()){
@@ -131,7 +132,7 @@ public class SheetCombine5_9 extends AbstractHandler{
 		}
 		
 		String yuefen = parentFileName.substring(parentFileName.indexOf("2"));
-		String currentFileName = "";
+ 		String currentFileName = file.getName();
 		String currentSheetName = "";
 		int lineIndex = 0;
 		int sheetIndex;
@@ -170,67 +171,77 @@ public class SheetCombine5_9 extends AbstractHandler{
 //		}
 		
 		// ======================  new =======================
-		int keshiNameIndex = 0;// 表内科室INDEX
-		int roleNameIndex = 1;// 第二列上班人员名字
-		Workbook workbook = ExcelUtil.createWorkBook(file);
-		String keshiName = file.getName();
-		keshiName = keshiName.substring(keshiName.indexOf("-") + 1, keshiName.lastIndexOf("."));
-		int sheetLength = workbook.getNumberOfSheets();
-		for(sheetIndex = 0; sheetIndex < sheetLength; sheetIndex++){
-			Sheet sheet = workbook.getSheetAt(sheetIndex);
-			String sheetName = sheet.getSheetName();
-			currentSheetName = sheetName;
-			int rowLength = sheet.getLastRowNum();
-			int startRow = 0;
-			boolean findHeJiCell = false;
-			int hejiIndex = 0;
-			for(lineIndex = startRow; lineIndex < rowLength; lineIndex++){
-				Row row = sheet.getRow(lineIndex);
-				if(row != null){
-					if(!findHeJiCell){
-						for(int cellIndex = 0; cellIndex < row.getLastCellNum(); cellIndex++){
-							Cell cell = row.getCell(cellIndex);
-							String str = ExcelUtil.getCellStringValue(cell);
-							if(str.contains("合计")){
-								findHeJiCell = true;
-								hejiIndex = cellIndex;
+		String keshiName;
+		String sheetName;
+		try{
+			int keshiNameIndex = 0;// 表内科室INDEX
+			int roleNameIndex = 1;// 第二列上班人员名字
+			Workbook workbook = ExcelUtil.createWorkBook(file);
+			keshiName = file.getName();
+			keshiName = keshiName.substring(keshiName.indexOf("-") + 1, keshiName.lastIndexOf("."));
+			int sheetLength = workbook.getNumberOfSheets();
+			for(sheetIndex = 0; sheetIndex < sheetLength; sheetIndex++){
+				Sheet sheet = workbook.getSheetAt(sheetIndex);
+				sheetName = sheet.getSheetName();
+				currentSheetName = sheetName;
+				int rowLength = sheet.getLastRowNum();
+				int startRow = 0;
+				boolean findHeJiCell = false;
+				int hejiIndex = 0;
+				for(lineIndex = startRow; lineIndex < rowLength; lineIndex++){
+					Row row = sheet.getRow(lineIndex);
+					if(row != null){
+						if(!findHeJiCell){
+							for(int cellIndex = 0; cellIndex < row.getLastCellNum(); cellIndex++){
+								Cell cell = row.getCell(cellIndex);
+								String str = ExcelUtil.getCellStringValue(cell);
+								if(str.contains("合计")){
+									findHeJiCell = true;
+									hejiIndex = cellIndex;
+								}
 							}
-						}
-					}else{
-						Cell hejiCellHeader = row.getCell(0);
-						if(ExcelUtil.getCellStringValue(hejiCellHeader).equals("合计")){
-							break;
-						}
-						Row newRow = toSaveSheet.createRow(newRowIndex);
-						
-						Cell yuefenCell = newRow.createCell(0);
-						yuefenCell.setCellValue(yuefen);
-						Cell keshi = newRow.createCell(1);
-						keshi.setCellValue(keshiName);
-						
-						Cell keshineiCell = newRow.createCell(2);
-						Cell roleName = newRow.createCell(3);
-						Cell heJi = newRow.createCell(4);
-						// 数值类型
-						heJi.setCellType(Cell.CELL_TYPE_NUMERIC);
-						
-						String keshiNeiStr = ExcelUtil.getCellStringValue(row.getCell(keshiNameIndex));
-						String roleNameStr = ExcelUtil.getCellStringValue(row.getCell(roleNameIndex));
-						String hejiStr = ExcelUtil.getCellStringValue(row.getCell(hejiIndex));
-						
-						keshineiCell.setCellValue(keshiNeiStr);
-						roleName.setCellValue(roleNameStr);
-						
-						if(StringUtils.isEmpty(roleNameStr)){
-							toSaveSheet.removeRow(newRow);
 						}else{
-							heJi.setCellValue(Float.parseFloat(hejiStr));
+							Cell hejiCellHeader = row.getCell(0);
+							if(ExcelUtil.getCellStringValue(hejiCellHeader).equals("合计")){
+								break;
+							}
+							Row newRow = toSaveSheet.createRow(newRowIndex);
+							
+							Cell yuefenCell = newRow.createCell(0);
+							yuefenCell.setCellValue(yuefen);
+							Cell keshi = newRow.createCell(1);
+							keshi.setCellValue(keshiName);
+							
+							Cell keshineiCell = newRow.createCell(2);
+							Cell roleName = newRow.createCell(3);
+							Cell heJi = newRow.createCell(4);
+							// 数值类型
+							heJi.setCellType(Cell.CELL_TYPE_NUMERIC);
+							
+							String keshiNeiStr = ExcelUtil.getCellStringValue(row.getCell(keshiNameIndex));
+							String roleNameStr = ExcelUtil.getCellStringValue(row.getCell(roleNameIndex));
+							String hejiStr = ExcelUtil.getCellStringValue(row.getCell(hejiIndex));
+							
+							keshineiCell.setCellValue(keshiNeiStr);
+							roleName.setCellValue(roleNameStr);
+							
+							if(StringUtils.isEmpty(roleNameStr)){
+								toSaveSheet.removeRow(newRow);
+							}else{
+								heJi.setCellValue(Float.parseFloat(hejiStr));
+							}
+							newRowIndex++;
 						}
-						newRowIndex++;
-						
 					}
 				}
 			}
+		}
+		catch (Exception e){
+			Commanager.addLogger2Queue("===>>>处理【" + currentFileName
+					+ "】时表名为【" + currentSheetName + "】的第【" + lineIndex + "】行数据时，格式不符合规范，程序出错了");
+			System.out.println("===>>>处理【" + currentFileName
+					+ "】时表名为【" + currentSheetName + "】的第【" + lineIndex + "】行数据时，格式不符合规范，程序出错了");
+			e.printStackTrace();
 		}
 	}
 }
