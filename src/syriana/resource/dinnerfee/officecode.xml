@@ -9,7 +9,7 @@
 	<office id="107" name="神内一区" />
 	<office id="108" name="神内二区" />
 	<office id="109" name="神内三区" />
-	<office id="110" name="风湿免疫科" />
+	<office id="110" name="肾内南区风湿免疫科" />
 	<office id="111" name="肾内北区" />
 	<office id="112" name="肾内血透室" />
 	<office id="113" name="肿瘤一区" />
@@ -51,6 +51,7 @@
 	<office id="149" name="西药房" />
 	<office id="150" name="肾内南区" />
 	<office id="151" name="导管室" />
+	<office id="152" name="I期病房" />
 	<office id="201" name="收费处" />
 	<office id="202" name="司机班" />
 	<office id="203" name="电梯班" />
