@@ -9,8 +9,8 @@
 	<office id="107" name="神内一区" />
 	<office id="108" name="神内二区" />
 	<office id="109" name="神内三区" />
-	<office id="110" name="肾内南区风湿免疫科" />
-	<office id="111" name="肾内北区" />
+	<office id="110" name="风湿免疫科医生" />
+	<office id="111" name="内分泌科风湿免疫科护士" />
 	<office id="112" name="肾内血透室" />
 	<office id="113" name="肿瘤一区" />
 	<office id="114" name="肿瘤二区" />
@@ -45,11 +45,11 @@
 	<office id="143" name="整形外科" />
 	<office id="144" name="放疗科" />
 	<office id="145" name="放疗科二区" />
-	<office id="146" name="内分泌科" />
+	<office id="146" name="内分泌科医生" />
 	<office id="147" name="乳腺病科" />
 	<office id="148" name="放疗科直线加速器治疗中心" />
 	<office id="149" name="西药房" />
-	<office id="150" name="肾内南区" />
+	<office id="150" name="肾病内科" />
 	<office id="151" name="导管室" />
 	<office id="152" name="I期病房" />
 	<office id="201" name="收费处" />
