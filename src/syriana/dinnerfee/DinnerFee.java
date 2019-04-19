@@ -107,6 +107,10 @@ public class DinnerFee extends AbstractHandler{
 							if(empName == null || empName.trim().equals("")){
 								break;
 							}
+							// 过滤掉合计，审核人的名字
+							if(empName.trim().contains("合计") || empName.trim().contains("审核人")){
+								continue;
+							}
 							// 草尼玛乱插一行空的
 							try{
 								if(StringUtils.isEmpty(empFee)){
